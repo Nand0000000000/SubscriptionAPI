@@ -1,0 +1,32 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(uuid()) // Gera um ID único em texto
+  email        String        @unique
+  password     String
+  name         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  
+  // Relacionamento: Um usuário pode ter uma assinatura
+  subscription Subscription?
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  status    String   // 'active', 'trialing', 'canceled'
+  price     Int      // Preço em centavos (boa prática)
+  userId    String   @unique
+  
+  // Vincula a assinatura ao usuário pelo userId
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
