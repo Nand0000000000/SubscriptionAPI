@@ -1,7 +1,7 @@
 import { Router } from "express";
 import authRouter from "./auth.routes.js";
 import { authorize } from "../middlewares/auth.middleware.js";
-import { createSub } from "../controllers/subscription.controller.js";
+import { createSub, getSubByUser } from "../controllers/subscription.controller.js";
 
 const subscriptionRouter = Router();
 
@@ -9,9 +9,7 @@ subscriptionRouter.get("/", (req, res) => {
     res.send({Title: "Get subscriptions"})
 })
 
-subscriptionRouter.get("/:id", (req, res) => {
-    res.send({Title: "Get specific subscriptions"})
-})
+subscriptionRouter.get("/:id", authorize, getSubByUser )
 
 subscriptionRouter.post("/", authorize,  createSub)
 
