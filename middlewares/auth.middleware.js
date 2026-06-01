@@ -1,12 +1,14 @@
 import jsonwebtoken from "jsonwebtoken";
-import { JWT_SECRET } from "../config/env";
+import { JWT_SECRET } from "../config/env.js";
 
 export const authorize = async (req, res, next) => {
     try{
         let token;
 
-        if(req.headers.autorization && req.headers.autorization.startsWith("Bearer")){
-            token = req.headers.authorization.split(" ")[1];
+        const authorizationHeader = req.headers.authorization;
+
+        if (authorizationHeader && authorizationHeader.startsWith("Bearer")) {
+            token = authorizationHeader.split(" ")[1];
         }
 
         if (!token) {

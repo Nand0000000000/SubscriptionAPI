@@ -59,7 +59,7 @@ export const signIn = async (req, res, next) => {
 
         res.status(200).json({
             message: "Login efetuado com sucesso!",
-            token: token, // O front-end vai guardar esse token para usar depois
+            token: token, 
             user: { id: user.id, name: user.name, email: user.email }
         });
     }catch(error){
